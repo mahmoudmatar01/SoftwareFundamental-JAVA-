@@ -993,6 +993,162 @@ a program without having to touch previously tested, working code.
 - At runtime, a Java program is nothing more than objects ‘talking’ to other objects.
 
 
+## Encapsulation In OOP
+Encapsulation is one of the four fundamental Object-Oriented Programming (OOP) concepts, along with inheritance, polymorphism, and abstraction. In Java, encapsulation refers to the bundling of data (attributes or fields) and methods (functions or procedures) that operate on the data into a single unit known as a class. This unit provides a protective barrier, preventing the direct access to the internal details of the class from outside.
+
+### Encapsulation serves several purposes in Java and OOP in general:
+- *Data Hiding*: The internal details of a class, such as its data members, are hidden from the outside world. This means that the implementation details can change without affecting the code that uses the class.
+
+- *Access Control*: By using access modifiers (like private, protected, and public), you can control the visibility of class members. For example, you can make certain variables private, allowing access only through getter and setter methods.
+
+- *Modularity*: Encapsulation promotes modularity by organizing code into manageable units (classes). Each class is responsible for a specific set of functionalities, and changes to one class don't necessarily affect other parts of the program.
+
+### Access Modifiers In Java
+- *Default (Package-Private)*:
+    No keyword is used for default access.
+    Members with default access are accessible within the same package. They are not accessible outside the package.
+    ```java
+    class Example {
+    int x;  // default access
+    }
+    ```
+- *Private*:
+    The private keyword is used to declare a member as private.
+    Members with private access are only accessible within the same class. They are not accessible outside the class.    
+    ```java
+    class Example {
+    private int x;
+    }
+    ```
+- *Protected*:
+    The protected keyword is used to declare a member as protected.
+    Members with protected access are accessible within the same package and subclasses (even if they are in a different package). 
+    ```java
+    class Example {
+    protected int x;
+    }
+    ```
+- *Public*:
+    The public keyword is used to declare a member as public.
+    Members with public access are accessible from any part of the program, both within and outside the package.      
+    ```java
+    public class Example {
+    public int x;
+    }
+    ```     
+
+### How can i access private attribute outside a class
+In Java, the private access modifier restricts the visibility of a class member (field, method, or inner class) to only within the same class. This means that you cannot access a private member directly from outside the class.
+However, there are ways to access private members indirectly within the same class or through special mechanisms. Here are a few common ways to work with private members:  
+- Access within the same class: You can access private members directly within the same class. Here's an example
+```java
+public class Car {
+    private int price;
+
+    public void accessPrice() {
+        // Accessing private member within the same class
+        price = 10;
+        System.out.println("Private price: " + price);
+    }
+}
+```
+
+- Accessor (Getter) and Mutator (Setter) Methods:You can provide public methods (getters and setters) to access and modify private members
+```java
+public class Car {
+    private int price;
+
+    // Getter method to access privateVar
+    public int getPrice() {
+        return price;
+    }
+
+    // Setter method to modify privateVar
+    public void setPrice(int value) {
+        price = value;
+    }
+}
+```
+With these methods, you can indirectly access and modify the private member
+```java
+Car obj = new Car();
+obj.setPrice(42);
+int value = obj.getPrice();   // 42
+```
+
+- Reflection (Advanced):Java Reflection API allows you to inspect and manipulate classes, methods, fields, etc., at runtime. While it's a powerful mechanism, it should be used with caution because it can break encapsulation. Here's an example of accessing a private field using reflection:
+```java
+import java.lang.reflect.Field;
+
+public class Car {
+    private int price;
+
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+        Car obj = new Car();
+        
+        // Using reflection to access private field
+        Field field = Car.class.getDeclaredField("price");
+        field.setAccessible(true);
+        int value = (int) field.get(obj);
+
+        System.out.println("Private variable: " + value);
+    }
+}
+```
+Keep in mind that using reflection to access private members goes against the principles of encapsulation and should be done with care. It might lead to code that is more fragile and harder to maintain.
+
+
+### Benefits of Encapsulation in Java:
+- *Security*:
+Protects the internal state of an object from unauthorized access and modification.
+
+- *Flexibility and Maintenance*:
+Changes to the internal implementation of a class do not affect code that uses the class, promoting modularity and ease of maintenance.
+
+- *Code Organization*:
+Encapsulation helps organize code into manageable units (classes), improving the overall structure of a program.
+
+- *Validation and Control*:
+By using setters, you can enforce validation rules and control how data is modified.
+
+
+### Example of Encapsulation in Java:
+```java
+public class BankAccount {
+    private String accountNumber;
+    private double balance;
+
+    public BankAccount(String accountNumber) {
+        this.accountNumber = accountNumber;
+        this.balance = 0.0;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposit successful. New balance: " + balance);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Withdrawal successful. New balance: " + balance);
+        } else {
+            System.out.println("Invalid withdrawal amount.");
+        }
+    }
+}
+
+```
+
+
 ## Better Living in Objectville (inheritance and polymorphism)
 - Plan your programs with the future in mind.If there were a way to write Java code such that you could take more vacations, how much would It be worth to you? What if you could write code that someone else could extend, easily? And if you could write code that was flexible, for those pesky last-minute spec changes, would that be something you're interested In?Then this is your lucky day.
 
