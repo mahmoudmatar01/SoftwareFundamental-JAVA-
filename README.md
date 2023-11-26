@@ -983,3 +983,182 @@ a program without having to touch previously tested, working code.
 - At runtime, a Java program is nothing more than objects ‘talking’ to other objects.
 
 
+## Better Living in Objectville (inheritance and polymorphism)
+- Plan your programs with the future in mind.If there were a way to write Java code such that you could take more vacations, how much would It be worth to you? What if you could write code that someone else could extend, easily? And if you could write code that was flexible, for those pesky last-minute spec changes, would that be something you're interested In?Then this is your lucky day.
+
+### The power of inheritance :
+
+- I looked at what all four classes have in common .
+------ Square -------        ------ Circle -------     
+rotate();           |        | rotate();         |         
+playSound();        |        | playSound();      |
+---------------------        ---------------------
+
+------Triangle------         ------ Amoeba -------     
+rotate();           |        | rotate();         |         
+playSound();        |        | playSound();      |
+---------------------        ---------------------
+
+- There're Shapes, and they all rotate and plavSound. So I abstracted out the common features and put them into a new class called Shape.
+------ Shape -------           
+rotate();           |                 
+playSound();        |        
+---------------------        
+
+- Then i linked the other four shape classes tp the new shape class,in a relationship called inheritance .
+                   *SuperClass*
+                ------ Shape -------           
+                | rotate();        |                 
+                |playSound();      |        
+                -------------------- 
+
+                   *SubClasses*
+------ Square -------        ------ Circle -------     
+                    |        |                   |         
+                    |        |                   |
+---------------------        ---------------------
+
+------Triangle------         ------ Amoeba -------     
+                    |        |                   |         
+                    |        |                   |             
+---------------------        ---------------------
+- You can read this as, "Square Inherits from Shape" ,"Circle Inherits from Shape", and so on. I removed rotate() and playSound() from the other shapes, so now there's only one copy to maintain.
+- The.Shape class is called the Superclass of the other four classes. The other four are the subclasses of Shape. The Subclasses Inherit the methods of the superclass. In other words. If the Shape class has the functianality, then the subclasses automatically gat that same functionality .
+
+#### Understanding Inheritance
+- When you design with inheritance, you put common code in a class and then tell other more specific classes that the common (more abstract) class is their superclass.When one class inherits from another, the subclass inherits from the superclass.
+- In Java, we say that the subclass extends the superclass. An inheritance relationship means that the subclass inherits the members of the superclass, When we say "members of a class" we mean the instance variables and methods .
+- For example, if PantherMan is a subclass of SuperHero, the PantherMan class automatically inherits the instance variables and methods common to all superheroes including suit, tights specialPower, useSpecialPower() and so on.But the PantherMan subclass can add new methods and instance variables of its own, and it can override the methods it inherits fro:m the superclass SuperHero.
+
+                      *SuperClass*
+                ------ SuperHero -------           
+                | suit                 |                 
+                |tights                |  // instance variables
+                |specialPower          |      (state,attribute)
+                ------------------------
+                |useSpecialPower()     | //   Methods
+                |putOnSuit()           |     (behavior)
+                ------------------------ 
+                           |
+                           |
+                      *SubClasses*
+        --------------------------------
+        |                              |
+----FriedEggMan------        ------ PantherMan -------     
+                    |        | useSpecialPower()     |// override
+                    |        | putOnSuit()           |   Methods
+---------------------        ------------------------               
+
+- FriedEggMan doesn't need any behavior that's unique,so he doesn't override any methods. The methods and instance variables in SuperHero are sufficient.PanthenMan, though, has specific requirements for his suit and special powers, so useSpecialPower () and putOnSuit () are both overridden in the PantherMan class.
+- Instance variables are not overridden because they don't need to be. They don't define any special behavior, so a subclass can give an inherited instance variable any value it chooses.
+
+#### An Inheritance example :
+```java
+public class Doctor{
+    boolean worksAtHospital;
+    void treatPatient(){
+        // perform a checkup
+    }
+}
+
+public class FamilyDoctor extends Doctor{
+    boolean makeHouseCalls;
+    void giveAdvice(){
+        //give homespun advice
+    }
+}
+
+public class Surgeon extends Doctor{
+    void treatPatient(){
+        // perform surgery
+    } 
+    void makeIncision(){
+        //make incision (yikes!)
+    }
+}
+```
+
+#### Using IS-A and HAS-A
+- Remember that when one class inherits from another, we say that the subclass extends the superclass. When you want to know if one thing should extend another, apply the IS-A test, Triangle IS-A Shape, yeah, that works. Cat IS-A Feline, that works too .Surgeon IS-A Doctor, still good.Tub extends Bathroom, sounds reasonable.
+Until you apply the IS-A test.
+- To know if you've designed your types correctly, ask, "Does it make sense to say type X IS-A type Y?" If it doesn't, you know there's something wrong with the design, so ifwe apply the IS-A test, Tub IS-A Bathroom is definitely false.
+- What if we reverse it to Bathroom extends TUb? That still doesn't work.,Bathroom IS-AvTub doesn't work.
+- Tub and Bathroom are related, but not through inheritance. Tub and Bathroom are joined by a HAS-A relationship. Does it make sense to say "Bathroom HAS-A TUb"? If yes, then it means that Bathroom has a Tub instance variable. In other words, Bathroom has a reference to a Tub, but Bathroom does not extend Tub and vice-versa.
+
+#### But wait! There's More!
+The IS-A test works anywhere in the inheritance tree. If your inheritance tree is well-designed, the IS-Atest should make sense when you ask any subclass if it IS-A any of it IS su pertypes.
+- If class B extends class A, class B IS-A class A.This is true anywhere in the inheritance tree. If class C extends class B, class C passes the IS-A test for both B and A.
+
+#### How do you know if you've got your inheritace right?
+Keep in mind that the inheritance IS-A relationship works in only one directionl !
+- Triangle IS-AShape makes sense, so you can have Triangle extend Shape. But the reverse-Shape IS-A Triangle-does not make sense, so Shape should not extend Triangle. Remember that the IS-A relationship implies that if X IS-A y. then X can do anything a Y can do (and possibly more).
+
+#### Access levels control
+- public members are Inherited
+- private members are not Inherited
+
+#### Inheritance Bullet Points
+• A subclass extends a superclass.
+• A subclass Inherits all public Instance variables and methods of the superclass, but does not Inherit the private Instance variables and methods of the superclass,
+• Inherited methods can be overridden; instance variables cannot be overridden (although they can be redefined in the subclass, but that's not the same thing, and there's almost never a
+need to do it)
+• Use the IS-A test to verify that your inheritance hierarchy is valid. If X extends Y,then X IS-A Y must make sense.
+• The IS-A relationship works In only one direction. A Hippo is an Animal. but not all Animals are Hippos.
+• When a method is overridden ina subclass, and that method is Invoked on an instance of the subclass, the overridden version of the method is called. (The lowest one wins.)
+• If class B extends A, and C extends B, class B IS-A class A, and class C IS-A class B, and class C also IS-A class A .
+
+#### So what does all this Inheritance really buy you?
+- You avoid duplicate code.Put common code in one place, and let the subclasses inherit that code from a superclass . When you want to change that behavior, you have to modify it in only one place,and everybody else (i.e, all the subclasses) see the change .
+- You define a common protocol for a group of classes.
+
+
+### The power of polymorphism
+- With polymorphism, you can write code that doesn't have to change when you introduce new subclass types Into the program.
+- It refers to the ability of a single function, method, or operator to operate on different types of data or objects. In other words, polymorphism allows objects of different types to be treated as objects of a common type.
+
+#### Types of Polymorphism
+1. *Compile-time (Static) Polymorphism*
+- Method Overloading: Multiple methods in the same class with the same name but different parameter lists.
+  ```java
+  public class Calculator {
+      public int add(int a, int b) {
+          return a + b;
+      }
+
+      public double add(double a, double b) {
+          return a + b;
+      }
+  }
+  ```
+2. *Run-time (Dynamic) Polymorphism*
+- Method Overriding: A subclass provides a specific implementation of a method already defined in its superclass..
+```java
+ Superclass
+public class Animal {
+    public void makeSound() {
+        System.out.println("Some generic sound");
+    }
+}
+
+// Subclass
+public class Dog extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Woof! Woof!");
+    }
+}
+  ```
+
+#### Keepingg the contract: rules for overriding
+When you override a method from a supercIass, you're agreeing to fulfill the contract. The contract that says. for example, I take no
+arguments and I return a boolean. In other words, the arguments and return types of your overriding method must look to the outside world exactly like the overridden method in the superclass .
+- Arguments must be the same, and return types must be compatible.
+- The method can't be less accessible
+  
+#### Overloading a Method
+Method overloading is nothing more than having two methods with the same name but different argument lists. Period. There's no polymorphism involved with overloaded methods!.It has nothing to do with inheritance and polymorphism. An overloaded method isNoT the same as an overridden method .
+- The return types can be different.
+- You can't change only the return type.
+- You can vary the access levels in any direction.
+
+
