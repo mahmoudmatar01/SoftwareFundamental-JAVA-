@@ -60,13 +60,15 @@ Choose the approach that best fits the nature of your project.
 
 ## We use simple UML.Like diagrams.
 If we'd used pureUML, you'd be seeing something that looks like Java , but with syntax that'sjust plain 1UTfYflf;. So we use a simplified version of UML that doesn't conflict with Java syntax. If you don't already know UML. you won't have to worry about leamingJava and UML at the same time .
--------- Dog --------
-size;               |
----------------------
-bark();             |
-eat();              |
-chaseCat()          |
----------------------
+@startuml
+class Dog {
+  - size: String
+
+  + bark(): void
+  + eat(): void
+  + chaseCat(): void
+}
+@enduml
 
 ## Java takes you to new places
 Java seduced programmers with Its friendly syntax, object-orlented features,memory management, and best of a all-the promise of portability.The lure of write-once/run anywhere Is just too strong.
