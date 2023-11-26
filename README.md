@@ -1,4 +1,4 @@
-# Software Fundamental With Java
+# Software Fundamental With Java  
 
 ## Software Development Life Cycle (SDLC)
 This section demonstrates the Software Development Life Cycle (SDLC) for managing and ensuring the success of a new software project in the software business.
@@ -64,13 +64,15 @@ If we'd used pureUML, you'd be seeing something that looks like Java , but with 
 ```plantuml
 @startuml
 class Dog {
-  - size: String
-  + bark(): void
-  + eat(): void
-  + chaseCat(): void
+  - size : int      
+
+  + bark() : void
+  + eat() : void     
+  + chaseCat() : void        
 }
 @enduml
-```
+```  
+
 ## Java takes you to new places
 Java seduced programmers with Its friendly syntax, object-orlented features,memory management, and best of a all-the promise of portability.The lure of write-once/run anywhere Is just too strong.
 
@@ -851,13 +853,18 @@ I was told there would be objects. In chapter 1 we put all of our code in the ma
 When you design a class, think about the objects that will be created from that class type. Think about:
 - things the object knows
 - things the object does
--------- ShoppingCart --------
-cartContents;                | // knows
-------------------------------
-addToCart();                 |
-removeFromCart();            | // does
-checkOut();                  |
-------------------------------
+
+```plantuml
+@startuml
+class ShoppingCart {
+  - cartContents : int      // Knows   
+
+  + addToCart() : void
+  + removeFromCart() : boolean     // does
+  + checkOut() : void        
+}
+@enduml
+```  
 - Things an object knows about itself are called Instance Variable.They represent an object's state (the data),and can have unique values for each object of that type.
 - Things an object can do are called Methods.
 - When you design a class,you think about the data an object will need to know about itself,and you also design the methods that operate on that data.
@@ -992,39 +999,81 @@ a program without having to touch previously tested, working code.
 ### The power of inheritance :
 
 - I looked at what all four classes have in common .
------- Square -------        ------ Circle -------     
-rotate();           |        | rotate();         |         
-playSound();        |        | playSound();      |
----------------------        ---------------------
 
-------Triangle------         ------ Amoeba -------     
-rotate();           |        | rotate();         |         
-playSound();        |        | playSound();      |
----------------------        ---------------------
+```plantuml
+@startuml
+class Square {
+  + rotate() : void
+  + playSound() : void          
+}
+@enduml
+```  
+
+```plantuml
+@startuml
+class Circle {
+  + rotate() : void
+  + playSound() : void          
+}
+@enduml
+```  
+
+```plantuml
+@startuml
+class Triangle {
+  + rotate() : void
+  + playSound() : void          
+}
+@enduml
+```  
 
 - There're Shapes, and they all rotate and plavSound. So I abstracted out the common features and put them into a new class called Shape.
------- Shape -------           
-rotate();           |                 
-playSound();        |        
----------------------        
+```plantuml
+@startuml
+class Shape {
+  + rotate() : void
+  + playSound() : void          
+}
+@enduml
+```       
 
 - Then i linked the other four shape classes tp the new shape class,in a relationship called inheritance .
-                   *SuperClass*
-                ------ Shape -------           
-                | rotate();        |                 
-                |playSound();      |        
-                -------------------- 
+*SuperClass*
+```plantuml
+@startuml
+class Shape {
+  + rotate() : void
+  + playSound() : void          
+}
+@enduml
+```    
 
-                   *SubClasses*
------- Square -------        ------ Circle -------     
-                    |        |                   |         
-                    |        |                   |
----------------------        ---------------------
+*SubClasses*
+```plantuml
+@startuml
+class Square extends Shape {
+           
+}
+@enduml
+```  
 
-------Triangle------         ------ Amoeba -------     
-                    |        |                   |         
-                    |        |                   |             
----------------------        ---------------------
+```plantuml
+@startuml
+class Circle extends Shape {
+         
+}
+@enduml
+```  
+
+```plantuml
+@startuml
+class Triangle extends Shape {
+
+
+}
+@enduml
+```  
+
 - You can read this as, "Square Inherits from Shape" ,"Circle Inherits from Shape", and so on. I removed rotate() and playSound() from the other shapes, so now there's only one copy to maintain.
 - The.Shape class is called the Superclass of the other four classes. The other four are the subclasses of Shape. The Subclasses Inherit the methods of the superclass. In other words. If the Shape class has the functianality, then the subclasses automatically gat that same functionality .
 
@@ -1033,24 +1082,35 @@ playSound();        |
 - In Java, we say that the subclass extends the superclass. An inheritance relationship means that the subclass inherits the members of the superclass, When we say "members of a class" we mean the instance variables and methods .
 - For example, if PantherMan is a subclass of SuperHero, the PantherMan class automatically inherits the instance variables and methods common to all superheroes including suit, tights specialPower, useSpecialPower() and so on.But the PantherMan subclass can add new methods and instance variables of its own, and it can override the methods it inherits fro:m the superclass SuperHero.
 
-                      *SuperClass*
-                ------ SuperHero -------           
-                | suit                 |                 
-                |tights                |  // instance variables
-                |specialPower          |      (state,attribute)
-                ------------------------
-                |useSpecialPower()     | //   Methods
-                |putOnSuit()           |     (behavior)
-                ------------------------ 
-                           |
-                           |
-                      *SubClasses*
-        --------------------------------
-        |                              |
-----FriedEggMan------        ------ PantherMan -------     
-                    |        | useSpecialPower()     |// override
-                    |        | putOnSuit()           |   Methods
----------------------        ------------------------               
+- *SuperClass*
+```plantuml
+@startuml
+class SuperHero {
+  - suit: String              //  instance variables
+  - tights: String                (state,attribute)
+  - specialPower: String
+  + useSpecialPower(): void    //   Methods
+  + putOnSuit(): void              (behavior)
+}
+@enduml
+```
+
+- *SubClasses*  
+```plantuml
+@startuml
+class FriedEggMan extends SuperHero {
+           
+}
+@enduml
+```         
+```plantuml
+@startuml
+class PantherMan extends SuperHero  {
+  + useSpecialPower(): void   //  overriding Methods
+  + putOnSuit(): void            
+}
+@enduml
+```            
 
 - FriedEggMan doesn't need any behavior that's unique,so he doesn't override any methods. The methods and instance variables in SuperHero are sufficient.PanthenMan, though, has specific requirements for his suit and special powers, so useSpecialPower () and putOnSuit () are both overridden in the PantherMan class.
 - Instance variables are not overridden because they don't need to be. They don't define any special behavior, so a subclass can give an inherited instance variable any value it chooses.
