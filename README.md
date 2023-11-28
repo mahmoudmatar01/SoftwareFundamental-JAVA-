@@ -1,6 +1,7 @@
-# Software Development Life Cycle (SDLC)
-This section demonstrates the Software Development Life Cycle (SDLC) for managing and ensuring the success of a new software project in the software business.
-## SDLC Phases
+# Software Fundamental With Java 
+
+## Software Development Life Cycle (SDLC)
+This section demonstrates the Software Development Life Cycle (SDLC) for managing and ensuring the success of a new software project in the software business. SDLC have 6 phases :
 
 ### 1. Analysis
 
